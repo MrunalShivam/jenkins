@@ -3,49 +3,28 @@ pipeline {
 
     stages {
 
-        stage('Check Python') {
+        stage('Checkout') {
             steps {
-                sh 'python3 --version'
-                sh 'python3 -m pip --version'
+                checkout scm
             }
         }
 
-        stage('Upgrade Pip') {
+        stage('Install') {
             steps {
-                sh 'python3 -m pip install --upgrade pip'
+                sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Test') {
             steps {
-                sh 'python3 -m pip install -r requirements.txt'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'python3 -m pytest'
+                sh 'pytest'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Build Successful!'
+                echo 'Build Successful'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully.'
-        }
-
-        failure {
-            echo 'Pipeline failed. Check the Console Output for details.'
-        }
-
-        always {
-            echo 'Pipeline execution finished.'
         }
     }
 }
