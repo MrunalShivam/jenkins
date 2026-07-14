@@ -2,28 +2,22 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Checkout') {
+        stage('Check Python') {
             steps {
-                echo 'Getting code from Git'
+                sh 'python3 --version'
+                sh 'python3 -m pip --version'
             }
         }
 
         stage('Install') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'pytest'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Application built successfully'
+                sh 'python3 -m pytest'
             }
         }
     }
